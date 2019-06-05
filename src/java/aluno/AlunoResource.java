@@ -10,6 +10,7 @@ import bd.daos.Alunos;
 import bd.dbos.Aluno;
 import java.io.StringReader;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
@@ -35,7 +36,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("aluno")
 public class AlunoResource {
-    private static final String NOME_ALUNO = "NOME", RA_ALUNO = "RA", EMAIL_ALUNO = "EMAIL";
+    private static final String NOME_ALUNO = "nome", RA_ALUNO = "RA", EMAIL_ALUNO = "email";
     
     @Context
     private UriInfo context;
@@ -53,13 +54,14 @@ public class AlunoResource {
         try {
         MeuResultSet meuResultSet = Alunos.getAlunos();
         
-        JsonObjectBuilder lista = Json.createObjectBuilder(JsonValue.EMPTY_JSON_OBJECT);
+        //JsonObjectBuilder lista = Json.createObjectBuilder(JsonValue.EMPTY_JSON_OBJECT);
+        JsonArrayBuilder lista = Json.createArrayBuilder();
         while (meuResultSet.next()) {
             String ra = meuResultSet.getString(RA_ALUNO);
             String nome = meuResultSet.getString(NOME_ALUNO);
             String email = meuResultSet.getString(EMAIL_ALUNO);
        
-            lista.add(ra, Json.createObjectBuilder().add(NOME_ALUNO, nome).add(EMAIL_ALUNO, email));
+            lista.add(Json.createObjectBuilder().add(NOME_ALUNO, nome).add(EMAIL_ALUNO, email).add(RA_ALUNO, ra));
         }
         
         return lista.build().toString();
@@ -84,7 +86,7 @@ Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
         alunoJSON.add(RA_ALUNO, aluno.getRA());
         alunoJSON.add(EMAIL_ALUNO, aluno.getEmail());
         
-        return alunoJSON.toString();
+        return alunoJSON.build().toString();
     }
     
     @GET
@@ -100,7 +102,7 @@ Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(
         alunoJSON.add(RA_ALUNO, aluno.getRA());
         alunoJSON.add(EMAIL_ALUNO, aluno.getEmail());
         
-        return alunoJSON.toString();
+        return alunoJSON.build().toString();
     }
 
     @PUT

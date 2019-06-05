@@ -12,12 +12,12 @@ package bd.dbos;
 public class Aluno {
     private String nome;
     private String RA;
-    private String Email;
+    private String email;
 
-    public Aluno(String RA, String nome, String Email) {
+    public Aluno(String RA, String nome, String email) {
         this.nome = nome;
         this.RA = RA;
-        this.Email = Email;
+        this.email = email;
     }
     
     public String getNome() {
@@ -37,16 +37,16 @@ public class Aluno {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        return "Aluno{" + "nome=" + nome + ", RA=" + RA + ", Email=" + Email + '}';
+        return "Aluno{" + "nome=" + nome + ", RA=" + RA + ", email=" + email + '}';
     }
     
 }
